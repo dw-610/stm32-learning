@@ -1,0 +1,19 @@
+# Build outputs
+build/
+
+# STM32CubeIDE / VSCode extension
+.settings/
+
+# Clangd cache
+.cache/
+
+# Compiled objects
+*.o
+*.obj
+*.elf
+*.bin
+*.hex
+*.map
+
+# Debug files
+*.dSYM/

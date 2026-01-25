@@ -1,0 +1,58 @@
+STM32 Development Setup - Ubuntu + VS Code
+===========================================
+
+1. INSTALL VS CODE EXTENSION
+   - Open VS Code
+   - Go to Extensions (Ctrl+Shift+X)
+   - Search "STM32Cube for Visual Studio Code"
+   - Install it (the extension will download additional tools automatically)
+
+2. INSTALL CMAKE
+   Run in terminal:
+   
+   sudo apt install cmake
+
+   Restart VS Code after installing.
+
+3. SET UP USB PERMISSIONS (udev rules)
+   Without this, Linux won't let you access the ST-LINK programmer.
+   
+   Run in terminal:
+
+   sudo tee /etc/udev/rules.d/99-stlink.rules << 'EOF'
+   # ST-LINK V2
+   ATTRS{idVendor}=="0483", ATTRS{idProduct}=="3748", MODE="0666"
+   # ST-LINK V2-1
+   ATTRS{idVendor}=="0483", ATTRS{idProduct}=="374b", MODE="0666"
+   # ST-LINK V3
+   ATTRS{idVendor}=="0483", ATTRS{idProduct}=="374f", MODE="0666"
+   ATTRS{idVendor}=="0483", ATTRS{idProduct}=="3753", MODE="0666"
+   ATTRS{idVendor}=="0483", ATTRS{idProduct}=="3754", MODE="0666"
+   EOF
+
+   Then reload the rules:
+
+   sudo udevadm control --reload-rules
+   sudo udevadm trigger
+
+   Unplug and replug your board.
+
+4. UPGRADE ST-LINK FIRMWARE (if needed)
+   If you get "ST-LINK firmware upgrade required" error:
+
+   a. Install Java if you don't have it:
+      sudo apt install default-jre
+
+   b. Run the upgrader:
+      java -jar ~/.local/share/stm32cube/bundles/stlink-upgrader/*/STLinkUpgrade.jar
+
+   c. In the GUI:
+      - Click "Open in update mode"
+      - Then click "Upgrade"
+      - Wait for it to complete
+
+5. TEST IT
+   - Create a new project in VS Code using the STM32 extension
+   - Select your board/MCU
+   - Choose Debug preset when prompted
+   - Press F5 to build, flash, and start debugging
