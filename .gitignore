@@ -17,3 +17,6 @@ build/
 
 # Debug files
 *.dSYM/
+
+# Reference manuals (large binary files)
+stm32f411re_ref_manual/
